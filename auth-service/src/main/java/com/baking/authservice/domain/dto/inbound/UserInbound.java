@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class UserInbound {
 
     private String username;
+    private String email;
     private String password;
 }
