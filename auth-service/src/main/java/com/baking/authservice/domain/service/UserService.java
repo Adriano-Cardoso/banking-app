@@ -8,7 +8,6 @@ import com.baking.authservice.domain.dto.outbound.UserOutbound;
 import com.baking.authservice.domain.model.Profile;
 import com.baking.authservice.domain.model.User;
 import com.baking.authservice.domain.port.in.SaveUserUseCase;
-import com.baking.authservice.domain.port.out.LoadUserByUserNamePort;
 import com.baking.authservice.domain.port.out.SaveUserPort;
 import com.baking.authservice.domain.validation.Message;
 import lombok.RequiredArgsConstructor;
@@ -16,18 +15,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("LoginService")
 @Slf4j
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService, SaveUserUseCase {
 
-    private final LoadUserByUserNamePort loadUserByUsernamePort;
     private final UserRepository userRepository;
 
     private final ProfileRepository profileRepository;
@@ -37,10 +34,10 @@ public class UserService implements UserDetailsService, SaveUserUseCase {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
-        return userMapper.userDTOToUserDetails(user);
+        log.info("method=loadUserByUsername username={}",username);
+        return userRepository.findByEmail(username)
+                .orElseThrow(Message.NOT_FOT_USER_PERMISSION::asBusinessException);
     }
 
 

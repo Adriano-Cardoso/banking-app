@@ -7,8 +7,9 @@ public enum Message {
 
     NOT_FOUND_VIDEO("O Usuário nao foi encontrado", HttpStatus.NOT_FOUND),
     IS_PRESENT_USER("O usuário já existe", HttpStatus.BAD_REQUEST),
-    NAME_PROFILE_NOT_FOUND("O Perfil selecionado nâo existe", HttpStatus.NOT_FOUND ),
-    TOKEN_ERROR("Token invalido", HttpStatus.FORBIDDEN);
+    NAME_PROFILE_NOT_FOUND("O Perfil selecionado nâo existe", HttpStatus.NOT_FOUND),
+    TOKEN_ERROR("Token invalido", HttpStatus.FORBIDDEN),
+    NOT_FOT_USER_PERMISSION("Usuário sem permissão", HttpStatus.FORBIDDEN);
 
     private String value;
     private String description;

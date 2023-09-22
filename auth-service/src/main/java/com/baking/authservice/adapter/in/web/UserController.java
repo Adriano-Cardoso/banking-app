@@ -4,7 +4,6 @@ import com.baking.authservice.domain.dto.inbound.UserInbound;
 import com.baking.authservice.domain.dto.outbound.UserOutbound;
 import com.baking.authservice.domain.service.UserService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

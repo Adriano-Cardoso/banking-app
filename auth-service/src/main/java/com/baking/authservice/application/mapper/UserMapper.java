@@ -6,20 +6,16 @@ import com.baking.authservice.domain.model.Profile;
 import com.baking.authservice.domain.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring") // Adicionando a configuração para usar o Lombok
 public interface UserMapper {
 
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
-
-    UserDetails userDTOToUserDetails(User user);
 
     @Mapping(target = "password", expression = "java(encodePassword(userInbound.getPassword()))")
     @Mapping(target = "profiles", expression = "java(createProfileList())")
@@ -33,7 +29,7 @@ public interface UserMapper {
 
     default List<Profile> createProfileList() {
         List<Profile> listProfile = new ArrayList<>();
-        listProfile.add(new Profile("USER"));  // Assuming you have a constructor in Profile
+        listProfile.add(new Profile("USER"));
         return listProfile;
     }
 }

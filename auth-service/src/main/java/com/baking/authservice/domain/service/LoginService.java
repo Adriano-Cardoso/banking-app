@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
-@Service("LoginService")
+@Service
 @RequiredArgsConstructor
 public class LoginService implements LoginAuthenticationUseCase {
 
