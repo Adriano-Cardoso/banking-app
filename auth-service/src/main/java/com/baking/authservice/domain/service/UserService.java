@@ -7,7 +7,9 @@ import com.baking.authservice.domain.dto.inbound.UserInbound;
 import com.baking.authservice.domain.dto.outbound.UserOutbound;
 import com.baking.authservice.domain.model.Profile;
 import com.baking.authservice.domain.model.User;
+import com.baking.authservice.domain.port.in.PasswordResetUseCase;
 import com.baking.authservice.domain.port.in.SaveUserUseCase;
+import com.baking.authservice.domain.port.out.SavePasswordResetTokenPort;
 import com.baking.authservice.domain.port.out.SaveUserPort;
 import com.baking.authservice.domain.validation.Message;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +25,13 @@ import java.util.Collections;
 @Service("LoginService")
 @Slf4j
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService, SaveUserUseCase {
+public class UserService implements UserDetailsService, SaveUserUseCase, PasswordResetUseCase {
 
     private final UserRepository userRepository;
     private final ProfileRepository profileRepository;
     private final SaveUserPort saveUserPort;
+
+    private final SavePasswordResetTokenPort passwordResetTokenPort;
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -40,9 +44,10 @@ public class UserService implements UserDetailsService, SaveUserUseCase {
 
     @Override
     public UserOutbound save(UserInbound userInbound) {
-        if (userRepository.findByEmail(userInbound.getEmail()).isPresent()) {
-            throw Message.IS_PRESENT_USER.asBusinessException();
-        }
+
+//        userRepository.findByEmail(userInbound.getEmail()).ifPresent(p -> {
+//            throw Message.IS_PRESENT_USER.asBusinessException();
+//        });
 
         Profile profile = profileRepository.findByName("USER")
                 .orElseThrow(() -> new RuntimeException("Default profile not found."));
@@ -57,5 +62,11 @@ public class UserService implements UserDetailsService, SaveUserUseCase {
         log.info("method=save username={} email={}", userInbound.getUsername(), userInbound.getEmail());
 
         return userMapper.userToUserOutbound(user);
+    }
+
+    @Override
+    public void savePasswordResetToken(String email, String token) {
+        passwordResetTokenPort.savePasswordResetToken(email, token);
+
     }
 }

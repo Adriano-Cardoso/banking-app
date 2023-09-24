@@ -1,6 +1,7 @@
 package com.baking.authservice.application.security;
 
 import com.baking.authservice.adapter.out.UserRepository;
+import com.baking.authservice.domain.model.User;
 import com.baking.authservice.domain.service.LoginService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -33,7 +34,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         var token = this.recoverToken(request);
         if(token != null){
             var login = loginService.validateToken(token);
-            Optional<UserDetails> user = userRepository.findByEmail(login);
+            Optional<User> user = userRepository.findByEmail(login);
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.get().getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -2,7 +2,9 @@ package com.baking.authservice.adapter.out;
 
 import com.baking.authservice.domain.model.User;
 import com.baking.authservice.domain.port.out.LoginAuthenticationPort;
+import com.baking.authservice.domain.port.out.SavePasswordResetTokenPort;
 import com.baking.authservice.domain.port.out.SaveUserPort;
+import com.baking.authservice.domain.validation.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -10,12 +12,15 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class UserAdapter implements SaveUserPort, LoginAuthenticationPort {
+public class UserAdapter implements SaveUserPort, LoginAuthenticationPort, SavePasswordResetTokenPort {
     private final UserRepository userRepository;
 
 
     @Override
     public void save(User user) {
+        userRepository.findByEmail(user.getEmail()).ifPresent(p -> {
+            throw Message.IS_PRESENT_USER.asBusinessException();
+        });
         userRepository.save(user);
     }
 
@@ -24,4 +29,15 @@ public class UserAdapter implements SaveUserPort, LoginAuthenticationPort {
         log.info("Usuário autenticado: " + email);
 
     }
+
+    @Override
+    public void savePasswordResetToken(String email, String token) {
+        userRepository.findByEmail(email).ifPresent(user -> {
+            user.setResetToken(token);
+            userRepository.save(user);
+            log.info("Token de redefinição de senha salvo para o usuário: " + email);
+        });
+    }
+
+
 }

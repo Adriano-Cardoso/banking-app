@@ -22,6 +22,8 @@ public class User implements UserDetails {
     private String email;
 
     private String password;
+
+    private String resetToken;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Profile> profiles;
 
