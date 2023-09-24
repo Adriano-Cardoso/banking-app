@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_auth
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  auth-service:
+    build:
+      context: C:\adriano\Projetos\banking-app\auth-service  # Caminho correto para o seu projeto auth-service
+      dockerfile: Dockerfile  # Nome do seu Dockerfile
+    container_name: auth_service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/auth_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update  # Você pode modificar isso conforme necessário
+    ports:
+      - "8081:8081"  # Ajuste conforme necessário
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+    driver: local

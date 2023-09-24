@@ -3,6 +3,7 @@ package com.baking.authservice.adapter.in.web;
 import com.baking.authservice.domain.dto.inbound.UserInbound;
 import com.baking.authservice.domain.dto.outbound.UserOutbound;
 import com.baking.authservice.domain.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 @RestController
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearer-key")
 public class UserController {
 
     private final UserService userService;

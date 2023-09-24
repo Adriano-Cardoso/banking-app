@@ -15,10 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 @Service("LoginService")
 @Slf4j
@@ -26,42 +26,36 @@ import java.util.List;
 public class UserService implements UserDetailsService, SaveUserUseCase {
 
     private final UserRepository userRepository;
-
     private final ProfileRepository profileRepository;
-
     private final SaveUserPort saveUserPort;
     private final UserMapper userMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        log.info("method=loadUserByUsername username={}",username);
+        log.info("method=loadUserByUsername username={}", username);
         return userRepository.findByEmail(username)
-                .orElseThrow(Message.NOT_FOT_USER_PERMISSION::asBusinessException);
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
     }
-
 
     @Override
     public UserOutbound save(UserInbound userInbound) {
-        userRepository.findByEmail(userInbound.getEmail())
-                .ifPresent(p -> {
-                    throw Message.IS_PRESENT_USER.asBusinessException();
-                });
+        if (userRepository.findByEmail(userInbound.getEmail()).isPresent()) {
+            throw Message.IS_PRESENT_USER.asBusinessException();
+        }
 
         Profile profile = profileRepository.findByName("USER")
-                .orElseThrow(Message.NAME_PROFILE_NOT_FOUND::asBusinessException);
-
-        List<Profile> listProfile = new ArrayList<>();
-        listProfile.add(profile);
+                .orElseThrow(() -> new RuntimeException("Default profile not found."));
 
         User user = userMapper.userInboundToUser(userInbound);
-        user.setProfiles(listProfile);
+        String hashedPassword = passwordEncoder.encode(userInbound.getPassword());
+        user.setPassword(hashedPassword);
+        user.setProfiles(Collections.singletonList(profile));
 
         saveUserPort.save(user);
 
-        log.info("method=save username={} email={}", user.getUsername(), user.getEmail());
+        log.info("method=save username={} email={}", userInbound.getUsername(), userInbound.getEmail());
 
         return userMapper.userToUserOutbound(user);
     }
-
 }

@@ -5,9 +5,7 @@ import com.baking.authservice.domain.validation.Message;
 import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,8 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
-@NoArgsConstructor
+@Slf4j
 public class JwtTokenProvider implements Serializable {
 
     @Serial
@@ -36,13 +33,17 @@ public class JwtTokenProvider implements Serializable {
     @Value("${api.jwt.expiration}")
     private  String expiration;
 
-    @Autowired
-    private  UserDetailsService userDetailsService;
+    private final  UserDetailsService userDetailsService;
+
+    public JwtTokenProvider(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
 
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+        log.info("JwtTokenProvider initialized with secret key: " + secretKey);
     }
 
     public String createToken(String username, List<String> roles) {
@@ -61,7 +62,7 @@ public class JwtTokenProvider implements Serializable {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    private String getUsername(String token) {
+    public String getUsername(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
@@ -76,10 +77,7 @@ public class JwtTokenProvider implements Serializable {
     public boolean validateToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            if (claims.getBody().getExpiration().before(new Date())) {
-                return false;
-            }
-            return true;
+            return !claims.getBody().getExpiration().before(new Date());
         } catch (JwtException | BusinessException e) {
             throw new BusinessException(HttpStatus.BAD_REQUEST, Message.TOKEN_ERROR.getDescription(), null, null);
         }
