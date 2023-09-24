@@ -18,7 +18,7 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginOutbound> auth(@RequestBody LoginInbound loginInbound) {
-        return ResponseEntity.ok(loginService.auth(loginInbound));
+    public ResponseEntity<LoginOutbound> authenticateAndGenerateToken(@RequestBody LoginInbound loginInbound) {
+        return ResponseEntity.ok(loginService.authenticateAndGenerateToken(loginInbound));
     }
 }
