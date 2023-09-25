@@ -9,7 +9,7 @@ import com.baking.authservice.domain.dto.inbound.LoginInbound;
 import com.baking.authservice.domain.dto.outbound.LoginOutbound;
 import com.baking.authservice.domain.model.Profile;
 import com.baking.authservice.domain.model.User;
-import com.baking.authservice.domain.validation.Message;
+import com.baking.authservice.util.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;

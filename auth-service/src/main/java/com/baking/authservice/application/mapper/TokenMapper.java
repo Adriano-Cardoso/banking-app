@@ -1,7 +1,7 @@
 package com.baking.authservice.application.mapper;
 
 import com.baking.authservice.domain.dto.outbound.LoginOutbound;
-import com.baking.authservice.domain.validation.Constants;
+import com.baking.authservice.util.Constants;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

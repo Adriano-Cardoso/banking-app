@@ -1,4 +1,4 @@
-package com.baking.authservice.domain.validation;
+package com.baking.authservice.util;
 
 import com.baking.authservice.domain.exception.BusinessException;
 import org.springframework.http.HttpStatus;

@@ -11,7 +11,6 @@ import com.baking.authservice.domain.port.in.PasswordResetUseCase;
 import com.baking.authservice.domain.port.in.SaveUserUseCase;
 import com.baking.authservice.domain.port.out.SavePasswordResetTokenPort;
 import com.baking.authservice.domain.port.out.SaveUserPort;
-import com.baking.authservice.domain.validation.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
