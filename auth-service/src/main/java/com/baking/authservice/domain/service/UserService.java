@@ -45,10 +45,6 @@ public class UserService implements UserDetailsService, SaveUserUseCase, Passwor
     @Override
     public UserOutbound save(UserInbound userInbound) {
 
-//        userRepository.findByEmail(userInbound.getEmail()).ifPresent(p -> {
-//            throw Message.IS_PRESENT_USER.asBusinessException();
-//        });
-
         Profile profile = profileRepository.findByName("USER")
                 .orElseThrow(() -> new RuntimeException("Default profile not found."));
 
