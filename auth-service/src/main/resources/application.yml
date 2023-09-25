@@ -1,0 +1,49 @@
+server:
+  port: 8081
+
+# jwt
+api:
+  jwt:
+    secret: "A+X;fTJP&Pd,TD9dwVq(hsHX,ya^<wsD_UK7L+@=S;{'CydP]{v@}G'b>et;yz$*\\yL5S8EJN:%P:X%H9>#nYLrX}@\\s?CQcpspH,2emzBc!Q[V'AYa~uzF8WR~AUrMzxp/V$9([S9X#zj/CH('#]B_Hc+%fGhe27YB;^j4\\Xk=Ju\"Ap~_&<L;=!Z;!,2UP;!hF3P]j85#*`&T]/kB/W^6$v~u6qpejL>kY^f)sy4:qTq_Ec!-z!@aAp~sLKGU>$"
+    expiration: 1800000
+
+# Configuracoes do banco de dados PostgreSQL
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/auth_db
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  kafka:
+    producer:
+      bootstrap-servers: localhost:29092
+  main:
+    allow-circular-references: true
+
+
+  # Configuracoes do Hibernate
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  # Configuracoes do Flyway
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    url: jdbc:postgresql://localhost:5432/auth_db
+    user: postgres
+    password: admin
+
+# Configuracoes do bean mapper
+bean:
+  mapper:
+    type: com.baking.authservice.application.mapper.UserMapper
+
+# Configuracoes do Spring Main
+#spring:
+#  main:
+#    allow-circular-references: true
+
+
+

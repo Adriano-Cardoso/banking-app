@@ -16,8 +16,6 @@ public class Constants {
     //reset password
     public static final String RESET_TOKEN = generateResetToken();
 
-    // kafka
-    public static final String RESET_PASSWORD_TOPIC = "token-reset-password-topic";
 
 
 
