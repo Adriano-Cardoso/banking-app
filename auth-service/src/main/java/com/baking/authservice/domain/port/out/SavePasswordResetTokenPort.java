@@ -2,5 +2,5 @@ package com.baking.authservice.domain.port.out;
 
 public interface SavePasswordResetTokenPort {
 
-    void savePasswordResetToken(String email, String token);
+    void savePasswordResetToken(String email);
 }

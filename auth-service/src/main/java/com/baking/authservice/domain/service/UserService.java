@@ -65,8 +65,10 @@ public class UserService implements UserDetailsService, SaveUserUseCase, Passwor
     }
 
     @Override
-    public void savePasswordResetToken(String email, String token) {
-        passwordResetTokenPort.savePasswordResetToken(email, token);
+    public void savePasswordResetToken(String email) {
+
+        passwordResetTokenPort.savePasswordResetToken(email);
 
     }
+
 }

@@ -4,6 +4,7 @@ import com.baking.authservice.domain.model.User;
 import com.baking.authservice.domain.port.out.LoginAuthenticationPort;
 import com.baking.authservice.domain.port.out.SavePasswordResetTokenPort;
 import com.baking.authservice.domain.port.out.SaveUserPort;
+import com.baking.authservice.domain.validation.Constants;
 import com.baking.authservice.domain.validation.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +32,9 @@ public class UserAdapter implements SaveUserPort, LoginAuthenticationPort, SaveP
     }
 
     @Override
-    public void savePasswordResetToken(String email, String token) {
+    public void savePasswordResetToken(String email) {
         userRepository.findByEmail(email).ifPresent(user -> {
-            user.setResetToken(token);
+            user.setResetToken(Constants.RESET_TOKEN);
             userRepository.save(user);
             log.info("Token de redefinição de senha salvo para o usuário: " + email);
         });
