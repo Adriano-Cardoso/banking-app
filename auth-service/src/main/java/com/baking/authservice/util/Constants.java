@@ -16,10 +16,6 @@ public class Constants {
     //reset password
     public static final String RESET_TOKEN = generateResetToken();
 
-
-
-
-
     private static String generateResetToken() {
         return UUID.randomUUID().toString();
     }
