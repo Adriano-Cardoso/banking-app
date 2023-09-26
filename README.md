@@ -3,8 +3,10 @@
 Banking App
 Este projeto é um aplicativo bancário que oferece funcionalidades essenciais para gerenciamento de contas, transações, chaves PIX e autenticação de usuários.
 
-Diagrama de Arquitetura
-![image](https://github.com/Adriano-Cardoso/banking-app/assets/77011351/d49348dc-189e-47e1-9fa1-43d350446751)
+# Diagrama de Arquitetura
+
+![image](https://github.com/Adriano-Cardoso/banking-app/assets/77011351/04368b0d-2ba4-42ac-9e18-070e0ba9d7c9)
+
 
 # Tecnologias Utilizadas
   • Java
