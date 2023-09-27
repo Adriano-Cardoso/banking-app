@@ -82,6 +82,15 @@ src/
 - Parameters:
   - email: Email of the user
 
+### Sequence diagram
+
+- User creation and send token authentication
+
+![img.png](img.png)
+
+- Generate reset token password
+
+![img_1.png](img_1.png)
 
 ### Author
 - Adriano Goulart
