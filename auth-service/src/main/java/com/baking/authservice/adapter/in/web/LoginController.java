@@ -1,24 +1,30 @@
 package com.baking.authservice.adapter.in.web;
 
-import com.baking.authservice.domain.dto.inbound.LoginInbound;
+import br.com.baking.api.AuthApi;
+import br.com.baking.model.LoginRequest;
+import br.com.baking.model.LoginResponse;
+import com.baking.authservice.application.mapper.TokenMapper;
 import com.baking.authservice.domain.dto.outbound.LoginOutbound;
 import com.baking.authservice.domain.service.LoginService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/auth")
 @RequiredArgsConstructor
 @RestController
-public class LoginController {
+public class LoginController implements AuthApi {
 
     private final LoginService loginService;
+    private final TokenMapper tokenMapper;
 
-    @PostMapping("/login")
-    public ResponseEntity<LoginOutbound> authenticateAndGenerateToken(@RequestBody LoginInbound loginInbound) {
-        return ResponseEntity.ok(loginService.authenticateAndGenerateToken(loginInbound));
+
+    @Override
+    public ResponseEntity<LoginResponse> authenticateAndGenerateToken(LoginRequest loginRequest) {
+
+        LoginOutbound loginOutbound = loginService.authenticateAndGenerateToken(tokenMapper.convertRequestToInbound(loginRequest));
+
+        return ResponseEntity.status(HttpStatus.OK).body(tokenMapper.convertOutboundToResponse(loginOutbound));
     }
+
 }
