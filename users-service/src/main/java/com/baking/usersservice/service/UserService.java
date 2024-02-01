@@ -28,11 +28,17 @@ public class UserService {
         return dto;
     }
 
-    public UserResponseDto addContato(UserRequestDto userDto){
+    public UserResponseDto addUser(UserRequestDto userDto){
         User user = new User(userDto);
         User entity = userRepo.save(user);
         UserResponseDto dto = new UserResponseDto(entity);
         return dto;
+    }
+
+
+    public void delProduto(int id){
+        userRepo.deleteById(id);
+
     }
 
 

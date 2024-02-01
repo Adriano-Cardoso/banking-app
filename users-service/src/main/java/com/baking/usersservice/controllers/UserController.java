@@ -2,7 +2,9 @@ package com.baking.usersservice.controllers;
 
 
 import com.baking.usersservice.dto.request.UserRequest;
+import com.baking.usersservice.dto.request.UserRequestDto;
 import com.baking.usersservice.dto.response.UserResponse;
+import com.baking.usersservice.dto.response.UserResponseDto;
 import com.baking.usersservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,12 +20,28 @@ public class UserController {
 	
 	private final UserService userService;
 
-	
+	@GetMapping(value  ="/{id}")
+	public UserResponseDto findById(@PathVariable int id){
+		return userService.findById(id);
+	}
 
+	@GetMapping
+	public List<UserResponseDto> findAll(){
+		List<UserResponseDto> res = userService.findAll();
+		return res;
+	}
 
-
-
-
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@PostMapping
+	public UserResponseDto addUser(@RequestBody UserRequestDto contato){
+		UserResponseDto dto = userService.addUser(contato);
+		return dto;
+	}
+	@DeleteMapping(value="/{id}")
+	public String delUser(@PathVariable int id) {
+		userService.delProduto(id);
+		return "message: Usuário excluído com sucesso.";
+	}
 
 
 
