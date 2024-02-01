@@ -1,11 +1,10 @@
 package com.baking.usersservice.service;
 
-import com.baking.usersservice.dto.request.UserRequest;
-import com.baking.usersservice.dto.response.UserResponse;
+import com.baking.usersservice.dto.request.UserRequestDto;
+import com.baking.usersservice.dto.response.UserResponseDto;
 import com.baking.usersservice.entities.User;
-import com.baking.usersservice.mapper.UserMapper;
-import com.baking.usersservice.repository.UsuarioRepository;
-import com.baking.usersservice.util.Message;
+
+import com.baking.usersservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,31 +14,63 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UsuarioRepository  usuarioRepository;
-    private final UserMapper userMapper;
-    
+    private final UserRepository userRepo;
 
+    public UserResponseDto findById(int id){
+        User entity = userRepo.findById(id).get();
+        UserResponseDto dto = new UserResponseDto(entity);
+        return dto;
+    }
+
+    public List<UserResponseDto> findAll(){
+        List<User> result = userRepo.findAll();
+        List<UserResponseDto> dto = result.stream().map(x -> new UserResponseDto(x)).toList();
+        return dto;
+    }
+
+    public UserResponseDto addContato(UserRequestDto userDto){
+        User user = new User(userDto);
+        User entity = userRepo.save(user);
+        UserResponseDto dto = new UserResponseDto(entity);
+        return dto;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     /* private final UserMapper userMapper;
     public List<UserResponse> listAllUsers(){
-        List<User> userList = usuarioRepository.findAll();
+        List<User> userList = userRepo.findAll();
         return userMapper.toListResponse(userList);
+    }
 
+    public List<UserResponse> listById(){
+    return null;
     }
     
     public UserResponse createUser(UserRequest userRequest){
         
-        usuarioRepository.findByEmail(userRequest.getEmail()).ifPresent(u -> {
+       userRepo.findByEmail(userRequest.getEmail()).ifPresent(u -> {
             throw Message.IS_PRESENT_USER.asBusinessException();
         });
 
         User user = userMapper.userRequestToUser(userRequest); 
         
-        usuarioRepository.save(user);
+       userRepo.save(user);
         
         
         return userMapper.userToResponse(user);
     }
-
-
 //    @GetMapping
 //    public List<UsuarioDto> findAll() {
 //        List<UsuarioDto> resp = usuarioService.findAll();
@@ -65,4 +96,10 @@ public class UserService {
 //        Usuario resp = repo.save(usuario);
 //        return resp;
 //    }
+
+   @GetMapping(value="/users/{id}")
+    public List<UsuarioDto> findById(@PathVariable int id){
+        List<UsuarioDto> resp = usuarioService.findById(id);
+        return resp;
+    }*/
 }

@@ -1,5 +1,6 @@
 package com.baking.usersservice.entities;
 
+import com.baking.usersservice.dto.request.UserRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,13 +13,16 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Integer userId;
     private String name;
     private String email;
     private String password;
-    private String resetToken;
-    private String phone;
-    private Integer bankAccount;
 
+public User (UserRequestDto userDto){
+    name = userDto.getName();
+    email = userDto.getEmail();
+    password = userDto.getPassword();
+
+}
 
 }

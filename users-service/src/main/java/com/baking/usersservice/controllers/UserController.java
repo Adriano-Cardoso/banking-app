@@ -13,21 +13,39 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/api/users")
 public class UserController {
 	
 	private final UserService userService;
 
-	@PostMapping
-	public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest){
-		return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequest));
-	}
-
-	@GetMapping
-	public ResponseEntity<List<UserResponse>> listAllUsers(){
-		return ResponseEntity.status(HttpStatus.OK).body(userService.listAllUsers());
-	}
 	
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+	/*@GetMapping
+	public ResponseEntity<List<UserResponse>> listAllUsers(){
+		return ResponseEntity.status(HttpStatus.OK).body(userService.listAllUsers());
+	}
+
+	@GetMapping
+	public ResponseEntity<List<UserResponse>> listUsersById(){
+		return ResponseEntity.status(HttpStatus.OK).body(userService.listAllUsers());
+	}
+
+
+	@PostMapping
+	public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest){
+		return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequest));
+	}*/
 }

@@ -5,7 +5,7 @@ import com.baking.usersservice.dto.response.UserResponse;
 import com.baking.usersservice.entities.User;
 import com.baking.usersservice.exception.BusinessException;
 import com.baking.usersservice.mapper.UserMapper;
-import com.baking.usersservice.repository.UsuarioRepository;
+import com.baking.usersservice.repository.UserRepository;
 import com.baking.usersservice.util.Message;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
 
     @Mock
-    private UsuarioRepository usuarioRepository;
+    private UserRepository usuarioRepository;
 
     @Mock
     private UserMapper userMapper;
