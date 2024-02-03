@@ -1,6 +1,5 @@
 package com.baking.usersservice.dto.response;
 
-import com.baking.usersservice.dto.request.UserRequestDto;
 import com.baking.usersservice.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,9 +15,10 @@ public class UserResponseDto {
     private String name;
     private String email;
 
-
     public UserResponseDto (User user){
         userId = user.getUserId();
         name = user.getName();
-        email = user.getEmail();}
+        email = user.getEmail();
+    }
+
 }

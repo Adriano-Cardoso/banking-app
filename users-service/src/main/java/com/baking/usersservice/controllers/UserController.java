@@ -1,23 +1,19 @@
 package com.baking.usersservice.controllers;
 
-
-import com.baking.usersservice.dto.request.UserRequest;
 import com.baking.usersservice.dto.request.UserRequestDto;
-import com.baking.usersservice.dto.response.UserResponse;
+import com.baking.usersservice.dto.request.UserRequestPutDto;
 import com.baking.usersservice.dto.response.UserResponseDto;
 import com.baking.usersservice.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/users")
 public class UserController {
-	
+	@Autowired
 	private final UserService userService;
 
 	@GetMapping(value  ="/{id}")
@@ -33,37 +29,25 @@ public class UserController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping
-	public UserResponseDto addUser(@RequestBody UserRequestDto contato){
-		UserResponseDto dto = userService.addUser(contato);
+	public UserResponseDto addUser(@RequestBody UserRequestDto user){
+		UserResponseDto dto = userService.addUser(user);
 		return dto;
 	}
 	@DeleteMapping(value="/{id}")
 	public String delUser(@PathVariable int id) {
 		userService.delProduto(id);
 		return "message: Usuário excluído com sucesso.";
+
+	}
+	@PutMapping("/{id}")
+	public UserResponseDto updateUser(@PathVariable int id, @RequestBody UserRequestPutDto user) {
+		UserResponseDto dto = userService.updateUser(id, user);
+		return dto;
 	}
 
-
-
-
-
-
-
-
-
-	/*@GetMapping
-	public ResponseEntity<List<UserResponse>> listAllUsers(){
-		return ResponseEntity.status(HttpStatus.OK).body(userService.listAllUsers());
+	@PatchMapping("/{id}")
+	public void updateUserUno(@PathVariable int id, @RequestBody UserRequestPutDto user) {
+		userService.updateUserUni(id, user);
 	}
 
-	@GetMapping
-	public ResponseEntity<List<UserResponse>> listUsersById(){
-		return ResponseEntity.status(HttpStatus.OK).body(userService.listAllUsers());
-	}
-
-
-	@PostMapping
-	public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest){
-		return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequest));
-	}*/
 }
