@@ -1,11 +1,14 @@
 package com.baking.usersservice.controllers;
 
+import com.baking.usersservice.dto.request.UserRequest;
 import com.baking.usersservice.dto.request.UserRequestDto;
 import com.baking.usersservice.dto.request.UserRequestPutDto;
 import com.baking.usersservice.dto.response.UserResponseDto;
 import com.baking.usersservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -29,9 +32,8 @@ public class UserController {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping
-	public UserResponseDto addUser(@RequestBody UserRequestDto user){
-		UserResponseDto dto = userService.addUser(user);
-		return dto;
+	public ResponseEntity createUser(@RequestBody UserRequest userRequest){
+		return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequest));
 	}
 	@DeleteMapping(value="/{id}")
 	public String delUser(@PathVariable int id) {

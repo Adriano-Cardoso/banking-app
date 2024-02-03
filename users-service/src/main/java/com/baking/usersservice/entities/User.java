@@ -1,5 +1,6 @@
 package com.baking.usersservice.entities;
 
+import com.baking.usersservice.dto.request.UserRequest;
 import com.baking.usersservice.dto.request.UserRequestDto;
 import com.baking.usersservice.dto.request.UserRequestPutDto;
 import com.baking.usersservice.dto.response.UserResponseDto;
@@ -24,7 +25,7 @@ public class User {
     private String email;
     private String password;
 
-public User (UserRequestDto userDto){
+public User (UserRequest userDto){
     name = userDto.getName();
     email = userDto.getEmail();
     password = userDto.getPassword();

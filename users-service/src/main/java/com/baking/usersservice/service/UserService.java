@@ -1,5 +1,6 @@
 package com.baking.usersservice.service;
 
+import com.baking.usersservice.dto.request.UserRequest;
 import com.baking.usersservice.dto.request.UserRequestDto;
 import com.baking.usersservice.dto.request.UserRequestPutDto;
 import com.baking.usersservice.dto.response.UserResponseDto;
@@ -28,8 +29,8 @@ public class UserService {
         List<UserResponseDto> dto = result.stream().map(x -> new UserResponseDto(x)).toList();
         return dto;
     }
-    public UserResponseDto addUser(UserRequestDto userDto) {
-        User user = new User(userDto);
+    public UserResponseDto createUser(UserRequest userRequest) {
+        User user = new User(userRequest);
         User entity = userRepo.save(user);
         UserResponseDto dto = new UserResponseDto(entity);
         return dto;
