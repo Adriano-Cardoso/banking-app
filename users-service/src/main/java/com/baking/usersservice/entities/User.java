@@ -1,20 +1,13 @@
 package com.baking.usersservice.entities;
 
 import com.baking.usersservice.dto.request.UserRequest;
-import com.baking.usersservice.dto.request.UserRequestDto;
-import com.baking.usersservice.dto.request.UserRequestPutDto;
-import com.baking.usersservice.dto.response.UserResponseDto;
+import com.baking.usersservice.dto.request.UserRequestUpdate;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 @Data
 @Table(name = "tb_user")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class User {
 
     @Id
@@ -31,7 +24,7 @@ public User (UserRequest userDto){
     password = userDto.getPassword();
 }
 
-    public User (UserRequestPutDto userDto){
+    public User (UserRequestUpdate userDto){
         name = userDto.getName();
         email = userDto.getEmail();
     }
