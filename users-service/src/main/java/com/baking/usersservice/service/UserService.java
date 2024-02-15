@@ -26,7 +26,7 @@ public class UserService {
 
     public List<UserResponse> findAll() {
         List<User> result = userRepository.findAll();
-        List<UserResponse> dto = result.stream().map(x -> new UserResponse(x)).toList();
+        List<UserResponse> dto = result.stream().map(user -> new UserResponse(user)).toList();
         return dto;
     }
     public UserResponse createUser(UserRequest userRequest) {
@@ -41,7 +41,11 @@ public class UserService {
         return dto;
     }
     public void deleteUser(int id) {
+        if (!userRepository.existsById(id)) {
+            throw new NoSuchElementException("Usuário não encontrado com o ID: " + id);
+        }
         userRepository.deleteById(id);
+
     }
     public UserResponse updateUser(int id, UserRequestUpdate userDto) {
         User user = new User(userDto);
@@ -52,26 +56,16 @@ public class UserService {
 
     }
     public void updateUserUni(int id, UserRequestUpdate userDto) {
-        User entity = userRepository.findById(id).get();
-        String nome = userDto.getName();
-        String email = userDto.getEmail();
+        User entity = userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Usuário não encontrado com o ID: " + id));
 
+        Optional.ofNullable(userDto.getEmail()).ifPresent(entity::setEmail);
+        Optional.ofNullable(userDto.getName()).ifPresent(entity::setName);
 
-        Optional.ofNullable(email).ifPresentOrElse(e -> {
-            entity.setEmail(e);
             userRepository.save(entity);
-            }, () -> Optional.ofNullable(nome).ifPresent(n -> {
-                entity.setName(n);
-            userRepository.save(entity);
-            }));
 
-        /*if(email != null){
-            entity.setEmail(email);
-            userRepo.save(entity);
-        } else if (nome != null) {
-            entity.setName(nome);
-            userRepo.save(entity);
-        }*/
+
+
     }
 }
 
